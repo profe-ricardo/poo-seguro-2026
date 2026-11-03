@@ -1,14 +1,14 @@
-from model.OrdenServicio import cliente
+from model.cliente import Client
 from equipo import Equipo
 
 class OrdenServicio():
-    def __init__(self, numero:str, descripcion:str, estado:str, diagnostico:str, equipo:str): # guarda todos los datos iniciales
+    def __init__(self, numero:str, descripcion:str, estado:str, diagnostico:str,  Client:Client ,Equipo:Equipo): # guarda todos los datos iniciales
         self.numero = numero 
         self.descripcion = descripcion
         self.estado = estado 
         self.diagnostico = diagnostico
-        self.cliente = cliente
-        self.equipo = equipo
+        self.Client = Client
+        self.Equipo = Equipo
         self.ID = ""    #se puede guardar dato en blanco para guardar 
 
     def Cambiar_Estado(self, nuevo_estado): #se guarda asi mismo y nuevo estado
