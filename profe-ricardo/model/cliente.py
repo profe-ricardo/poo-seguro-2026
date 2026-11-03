@@ -5,4 +5,10 @@ class Cliente():
         self.correo = correo
 
     def mostrar_datos(self):
-        return f"Nombre: {self.nombre} | Telefono: {self.telefono} | Correo: {self.correo}"
+        return f"Persona\n Nombre: {self.nombre} | Telefono: {self.telefono} | Correo: {self.correo}"
+
+    def actualizar_telefono(self, nuevo_telefono: str):
+        if isinstance(nuevo_telefono, str):
+            self.telefono = nuevo_telefono
+        else:
+            print("Telefono no corresponde a tipo str")
