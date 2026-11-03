@@ -1,5 +1,3 @@
-print("HelloWorld")
-
 """
     Reglas PEP8:
     - Clases -> inicial en mayús. palabra en min
