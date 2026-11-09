@@ -6,4 +6,4 @@ class Equipo():
         self.serie = serie
 
     def mostrar_datos(self):
-        return f"Tipo: {self.tipo}"
+        return f"Equipo\n Tipo: {self.tipo} | Marca: {self.marca} | Modelo: {self.modelo} | Serie: {self.serie}"
