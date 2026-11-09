@@ -1,0 +1,23 @@
+import oracledb
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+#CONSTANTES
+DB_DSN = os.getenv('DB_DSN')
+DB_PASS = os.getenv('DB_PASS')
+DB_USER = os.getenv('DB_USER')
+
+def conectar_db():
+    """coneccion a db oracle"""
+    try:
+        conn = oracledb.connect(
+            user=DB_USER,
+            password=DB_PASS,
+            dsn=DB_DSN
+        )
+        return conn
+    except Exception as e:
+        print(f"[ERROR] No se pudo conectar a BD | {e}")
+        return None
