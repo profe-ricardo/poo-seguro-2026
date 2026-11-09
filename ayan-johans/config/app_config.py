@@ -1,4 +1,5 @@
 import oracledb
+import traceback
 import os
 from dotenv import load_dotenv
 
@@ -20,4 +21,5 @@ def conectar_db():
         return conn
     except Exception as e:
         print(f"Error al conectar a DB | {e}")
+        traceback.print_exc()
         return None

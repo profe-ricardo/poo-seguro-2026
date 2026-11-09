@@ -1,5 +1,3 @@
-# Clase Equipo y versión ampliada de OrdenServicio (version ampliada)
-
 class Equipo:
     def __init__(self, tipo: str, marca: str, modelo: str, serie: str):
         self.tipo = tipo

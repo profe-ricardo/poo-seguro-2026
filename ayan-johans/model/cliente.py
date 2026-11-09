@@ -1,4 +1,4 @@
-from config.app_config import conectar_db
+from config.app_config import conectar_db, oracledb
 
 class Cliente:
 #atributos
@@ -7,12 +7,16 @@ class Cliente:
         self.correo = correo
         self.telefono = telefono
 
+        validar_tabla_cliente()
+        insertar_datos_cliente(self.nombre, self.telefono, self.correo)
+
     consulta_sql = """
         create table if not exists clientes(
             id int generated always as identify (start with 1 increment by 1) primary key, 
             nombre varchar2(100),
             telefono varchar2(30),
-            correo varchar2(100)
+            correo varchar2(100),
+            constraint uq_cliente unique (nombre, telefono, correo)
         )
     """
     try:
@@ -33,8 +37,109 @@ class Cliente:
 #isinstance: recibe un dato
             self.telefono = nuevo_telefono
         else:
-            print("Telefono no corresponde al tipo requerido (str) :(")
+            print("Telefono no corresponde al tipo requerido (str)")
 
     def mostrar_datos(self):
         return f'Cliente: {self.nombre} | Correo: {self.correo} | Telefono: {self.telefono}'
-    
+
+def validar_tabla_cliente():
+    # Solo puede existir un único registro que tenga (nombre, telefono, correo), si se registra otro igual lanzará error
+    consulta_sql = """
+        create table if not exists clientes (
+            id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
+            nombre varchar2(100),
+            telefono varchar2(30),
+            correo varchar2(100),
+            constraint uq_cliente unique (nombre, telefono, correo)
+        );
+    """
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta_sql)
+            print("[INFO] Tabla clientes creada correctamente")
+    except Exception as e:
+        print(f"[ERROR] Creación de tabla clientes | {e}")
+    finally:
+        if cursor:
+            cursor.close()
+            
+        if conn:
+            conn.close()
+
+def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
+    consulta_insert = "insert into clientes (nombre, telefono, correo) values (:1, :2, :3)"
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta_insert, (nombre, telefono, correo)) # Se entrega los datos parametrizados
+            conn.commit()
+
+            print("[INFO] Cliente insertado correctamente")
+    except oracledb.IntegrityError as e:
+        if conn:
+            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+
+        error = e.args[0]
+
+        if error.code == 1:
+            print("[WARNING] El cliente ya registrado") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
+        else:
+            print(f"[ERROR] Error de integridad | {e}")
+    except Exception as e:
+        if conn:
+            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+
+        print(f"[ERROR] Cliente no registrado | {e}")
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
+
+def bd_actualizar_telefono(cliente: Cliente, nuevo_telefono: str):
+    consulta_update = "update clientes set telefono = :1 where nombre = :2 and correo = :3 and telefono = :4"
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta_update, (nuevo_telefono, cliente.nombre, cliente.correo, cliente.telefono)) # Se entrega los datos parametrizados
+            conn.commit()
+
+            print("[INFO] Telefono del cliente actualizado correctamente")
+    except oracledb.IntegrityError as e:
+        if conn:
+            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+
+        error = e.args[0]
+
+        if error.code == 1:
+            print("[WARNING] Combiación: nombre-telefono-correo ya existente") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
+        else:
+            print(f"[ERROR] Error de integridad | {e}")
+    except Exception as e:
+        if conn:
+            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+
+        print(f"[ERROR] Cliente no registrado | {e}")
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
