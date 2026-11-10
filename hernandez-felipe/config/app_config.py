@@ -3,7 +3,7 @@ import os
 import traceback
 
 # Librerías
-import oracledb
+import oracledb  
 from dotenv import load_dotenv
 
 load_dotenv()
