@@ -1,7 +1,6 @@
 from config.app_config import conectar_db, oracledb
 
 def validar_tabla_cliente():
-    # Solo puede existir un único registro que tenga (nombre, telefono, correo), si se registra otro igual lanzará error
     consulta_sql = """
         create table if not exists clientes (
             id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
@@ -16,7 +15,6 @@ def validar_tabla_cliente():
 
     try:
         conn = conectar_db()
-
         if conn:
             cursor = conn.cursor()
             cursor.execute(consulta_sql)
@@ -26,7 +24,6 @@ def validar_tabla_cliente():
     finally:
         if cursor:
             cursor.close()
-            
         if conn:
             conn.close()
 
@@ -37,32 +34,26 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
 
     try:
         conn = conectar_db()
-
         if conn:
             cursor = conn.cursor()
-            cursor.execute(consulta_insert, (nombre, telefono, correo)) # Se entrega los datos parametrizados
+            cursor.execute(consulta_insert, (nombre, telefono, correo))
             conn.commit()
-
             print("[INFO] Cliente insertado correctamente")
     except oracledb.IntegrityError as e:
         if conn:
-            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
-
+            conn.rollback()
         error = e.args[0]
-
         if error.code == 1:
-            print("[WARNING] El cliente ya registrado") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
+            print("[WARNING] El cliente ya está registrado")
         else:
             print(f"[ERROR] Error de integridad | {e}")
     except Exception as e:
         if conn:
-            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
-
+            conn.rollback()
         print(f"[ERROR] Cliente no registrado | {e}")
     finally:
         if cursor:
             cursor.close()
-
         if conn:
             conn.close()
 
@@ -72,7 +63,7 @@ class Cliente():
         self.telefono = telefono
         self.correo = correo
 
-        validar_tabla_cliente() # Creamos la tabla / validamos que exista
+        validar_tabla_cliente()
         insertar_datos_cliente(self.nombre, self.telefono, self.correo)
 
     def mostrar_datos(self):
@@ -80,6 +71,27 @@ class Cliente():
 
     def actualizar_telefono(self, nuevo_telefono: str):
         if isinstance(nuevo_telefono, str):
-            self.telefono = nuevo_telefono
+            consulta_update = "update clientes set telefono = :1 where nombre = :2 and correo = :3"
+            conn = None
+            cursor = None
+
+            try:
+                conn = conectar_db()
+                if conn:
+                    cursor = conn.cursor()
+                    cursor.execute(consulta_update, (nuevo_telefono, self.nombre))
+                    conn.commit()
+
+                    self.telefono = nuevo_telefono
+                    print("[INFO] Teléfono actualizado correctamente en la base de datos")
+            except Exception as e:
+                if conn:
+                    conn.rollback()
+                print(f"[ERROR] No se pudo actualizar el teléfono | {e}")
+            finally:
+                if cursor:
+                    cursor.close()
+                if conn:
+                    conn.close()
         else:
             print("Telefono no corresponde a tipo str")

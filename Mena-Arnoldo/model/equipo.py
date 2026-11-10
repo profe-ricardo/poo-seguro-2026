@@ -45,10 +45,29 @@ def insertar_datos_equipo(tipo: str, marca: str, modelo: str, serie: str):
             conn.rollback()
         error = e.args[0]
         if error.code == 1:
-            print("[WARNING] El equipo ya está registrado (número de serie duplicado)")
+            print("[ERROR] El equipo ya está registrado (número de serie duplicado)")
         else:
             print(f"[ERROR] Error de integridad en equipo | {e}")
     except Exception as e:
         if conn:
             conn.rollback()
         print(f"[ERROR] Equipo no registrado | {e}")
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+class Equipo():
+    def __init__(self, tipo: str, marca: str, modelo: str, serie: str):
+        self.tipo = tipo
+        self.marca = marca
+        self.modelo = modelo
+        self.serie = serie
+
+        
+        validar_tabla_equipo()
+        insertar_datos_equipo(self.tipo, self.marca, self.modelo, self.serie)
+
+    def mostrar_datos(self):
+        return f"Equipo\n Tipo: {self.tipo} | Marca: {self.marca} | Modelo: {self.modelo} | Serie: {self.serie}"
