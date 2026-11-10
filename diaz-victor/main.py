@@ -12,3 +12,11 @@ print (persona_1.mostrar_datos())
 
 orden_1 = OrdenServicio('9 1234 5678', 'descripcion', 'mal estado', 'diagnostico', persona_1, equipo_1)
 print (persona_1.Cambiar_Estado, persona_1.registrar_diagnostico())
+
+
+print ("ingresar datos de la persona")
+nombre = input("Ingrese nombre: ")
+telefono = input("Ingrese telefono: ")
+correo = input("Ingrese correo: ")
+
+persona_1 = Client(nombre, telefono, correo)#por que persona 1?

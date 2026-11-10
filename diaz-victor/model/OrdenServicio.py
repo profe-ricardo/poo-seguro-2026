@@ -13,7 +13,7 @@ class OrdenServicio():
 
     def Cambiar_Estado(self, nuevo_estado): #se guarda asi mismo y nuevo estado
         if isinstance(nuevo_estado,str):
-            self.telefono = nuevo_estado
+            self.estado = nuevo_estado
         else:
             print("Nuevo estado no es str")
 
@@ -24,7 +24,7 @@ class OrdenServicio():
         else:
             print('Diagnostico no es str')
 
-        return f" Numero: {self.numero} | Cliente: {self.cliente.nombre} | Equipo{self.equipo.tipo}" #retorna los datos 
+        return f" Numero: {self.numero} | Cliente: {self.cliente.nombre} | Equipo: {self.equipo.tipo}" #retorna los datos 
 """
     def Resumen_resumen (self):
         return f ""
