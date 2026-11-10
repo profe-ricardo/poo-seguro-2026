@@ -65,11 +65,11 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
         if conn:
             conn.close()
 
-def actualizar_telefono(cliente: Cliente, nuevo_telefono:str):
-    consulta_update = """update clientes
+def bd_actualizar_telefono(cliente: Cliente, nuevo_telefono:str):
+    consulta_update = '''update clientes
                         set telefono = :1
                         where nombre = :2 and correo = :3 and telefono = :4
-                    """
+                    '''
     conn = None
     cursor = None
 
@@ -104,6 +104,17 @@ def actualizar_telefono(cliente: Cliente, nuevo_telefono:str):
         if conn:
             conn.close()
 
+class ClienteRepositorio:
+    def __init__(self):
+        pass
+
+    def actualizar_telefono(self, nuevo_telefono:str):
+        if isinstance(nuevo_telefono, str):
+            bd_actualizar_telefono()
+            self.telefono=nuevo_telefono
+        else:
+            print("Telefono no corresponde a tipo str")
+
 class Cliente:
     def __init__(self, nombre:str,telefono:str, correo:str):
         self.nombre=nombre
@@ -116,9 +127,6 @@ class Cliente:
     def mostrar_datos(self):
         return f'Cliente: {self.nombre} | Correo: {self.correo} | Teléfono: {self.telefono}'
 
-    def actualizar_telefono(self, nuevo_telefono:str):
-        if isinstance(nuevo_telefono, str):
-            
-            self.telefono=nuevo_telefono
-        else:
-            print("Telefono no corresponde a tipo str")
+
+
+
