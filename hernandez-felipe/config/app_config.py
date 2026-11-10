@@ -1,26 +1,29 @@
-#python
+# Python
 import os
+import traceback
 
-#librerias
+# Librerías
 import oracledb
 from dotenv import load_dotenv
 
 load_dotenv()
 
-#Constantes
-DB_DNS = os.getenv('DB_DNS')
+# CONSTANTES
+DB_DSN = os.getenv('DB_DSN')
 DB_PASS = os.getenv('DB_PASS')
 DB_USER = os.getenv('DB_USER')
 
 def conectar_db():
-    """Conexion a DB Oracle"""
+    """ Conexión a BD oracle """
     try:
         conn = oracledb.connect(
             user=DB_USER,
             password=DB_PASS,
-            dsn=DB_DNS
+            dsn=DB_DSN
         )
+
         return conn
-    except oracledb.Error as e:
-        print(f"[ERROR] NO se pudo conectar a la base de datos: {e}")
+    except Exception as e:
+        print(f"[ERROR] No se pudo conectar a BD:")
+        traceback.print_exc()
         return None
