@@ -1,3 +1,7 @@
+# Guardar orden de servicio en DB
+# Registrar cambio de estado en DB
+# Registrar diagnostico en DB
+
 from model.cliente import Cliente
 from model.equipo import Equipo
 
