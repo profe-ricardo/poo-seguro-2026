@@ -24,5 +24,6 @@ def conectar_db():
 
         return conn
     except Exception as e:
-        print(f"[ERROR] No se pudo conectar a BD | {e}")
+        print(f"[ERROR] No se pudo conectar a BD:")
+        traceback.print_exc()
         return None
