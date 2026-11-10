@@ -1,4 +1,4 @@
-class equipo():
+class Equipo():
     def __init__ (self, tipo:str, marca:str, modelo:str, serie:str):
         self.tipo = tipo
         self.marca = marca

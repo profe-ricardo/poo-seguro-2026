@@ -1,11 +1,11 @@
-from .cliente import cliente
-from .equipo import equipo
+from .cliente import Cliente
+from .equipo import Equipo
 
 class OrdenServicio ():
-    def __init__(self, numero:int, descripcion: str, estado:str, diagnostico:str, cliente: cliente, equipo: equipo): 
+    def __init__(self, numero:int, descripcion: str, estado:str, diagnostico:str, cliente: Cliente, equipo: Equipo): 
         self.descripcion = descripcion
-        self.estado = estado 
-        self.diagnstico = diagnostico
+        self.estado = estado or "Recibido"
+        self.diagnstico = diagnostico or ""
         self.cliente = cliente
         self.equipo = equipo
 
