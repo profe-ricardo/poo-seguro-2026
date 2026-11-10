@@ -9,7 +9,14 @@ from model.cliente import Cliente
 # from model.orden_servicio import OrdenServicio
 
 print("---")
-persona_1 = Cliente('Pedro', '912345678', 'pedro@hola.com')
+print("Ingrese datos de la persona")
+nombre = str(input(" - Nombre: "))
+telefono = str(input(" - Teléfono: "))
+correo = str(input(" - Correo: "))
+
+persona_1 = Cliente(nombre, telefono, correo)
+# persona_1.actualizar_telefono('987')
+
 # print(persona_1.mostrar_datos())
 # persona_1.actualizar_telefono(987654321)
 
