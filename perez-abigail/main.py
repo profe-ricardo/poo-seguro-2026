@@ -19,5 +19,5 @@ equipo_1 = Equipo('Telefono', 'Xiaomi', 'Redmi 14c', '123456')
 
 orden_servicio_1 = OrdenServicio(1, "Equipo no prende", "Recepcionado", "", persona_1, equipo_1)
 #orden_servicio_1.cambiarEstado("Resuelto")
-#registrarDiagnostico(diagnostico:str)
+#orden_servicio_1.registrarDiagnostico("ta amurrao")
 # print(orden_servicio_1.mostrar_resumen())

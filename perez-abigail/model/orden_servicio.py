@@ -111,6 +111,84 @@ class OrdenServicio_Repositorio():
     def __init__(self):
         pass
 
+    def bd_registrar_diagnostico(orden: OrdenServicio, diagnostico: str):
+        consulta_update = """
+            update ordenes_servicio set diagnostico = :1
+            where numero = :2;
+        """
+        conn = None
+        cursor = None
+    
+        try:
+            conn = conectar_db()
+    
+            if conn:
+                cursor = conn.cursor()
+                cursor.execute(consulta_update, (diagnostico, orden.numero)) # Se entrega los datos parametrizados
+                conn.commit()
+    
+                print("[INFO] Diagnostico registrado correctamente")
+        except oracledb.IntegrityError as e:
+            if conn:
+                conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+    
+            error = e.args[0]
+    
+            if error.code == 1:
+                print("[WARNING] Ni idea como llegaría a este error") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
+            else:
+                print(f"[ERROR] Error de integridad | {e}")
+        except Exception as e:
+            if conn:
+                conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+    
+            print(f"[ERROR] Diagnostico no se pudo registrar | {e}")
+        finally:
+            if cursor:
+                cursor.close()
+    
+            if conn:
+                conn.close()
+
+    def bd_actualizar_estado(orden: OrdenServicio, estado: str):
+        consulta_update = """
+            update ordenes_servicio set estado = :1
+            where numero = :2;
+        """
+        conn = None
+        cursor = None
+    
+        try:
+            conn = conectar_db()
+    
+            if conn:
+                cursor = conn.cursor()
+                cursor.execute(consulta_update, (estado, orden.numero)) # Se entrega los datos parametrizados
+                conn.commit()
+    
+                print("[INFO] Estado actualizado correctamente")
+        except oracledb.IntegrityError as e:
+            if conn:
+                conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+    
+            error = e.args[0]
+    
+            if error.code == 1:
+                print("[WARNING] Ni idea como llegaría a este error") # El error ORA-00001 indica prohibición de datos duplicados
+            else:
+                print(f"[ERROR] Error de integridad | {e}")
+        except Exception as e:
+            if conn:
+                conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+    
+            print(f"[ERROR] Estado no se pudo actualizar | {e}")
+        finally:
+            if cursor:
+                cursor.close()
+    
+            if conn:
+                conn.close()
+
 class OrdenServicio(OrdenServicio_Repositorio):
     def __init__(self, numero: int, descripcion: str, estado: str, diagnostico: str, cliente: Cliente, equipo: Equipo):
         self.numero = numero
@@ -126,12 +204,14 @@ class OrdenServicio(OrdenServicio_Repositorio):
     def cambiar_estado(self, nuevo_estado: str):
         if isinstance(nuevo_estado, str):
             self.estado = nuevo_estado
+            self.bd_actualizar_estado(self, nuevo_estado)
         else:
             print("Estado no corresponde a tipo String")
 
     def registrar_diagnostico(self, diagnostico: str):
         if isinstance(diagnostico, str):
             self.diagnostico = diagnostico
+            self.bd_registrar_diagnostico(self, diagnostico)
         else:
             print("Diagnostico no corresponde a tipo String")
 
