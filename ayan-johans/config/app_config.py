@@ -15,7 +15,7 @@ def conectar_db():
     try:
         conn = oracledb.connect(
             user = DB_USER,
-            pssword = DB_PASS,
+            password = DB_PASS,
             dsn = DB_DSN
         )
         return conn
