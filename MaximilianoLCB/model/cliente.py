@@ -66,6 +66,44 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
         if conn:
             conn.close()
 
+def actualizar_telefono(nuevo_telefono: str, cliente: Cliente):
+    consulta_update = """"update clientes 
+    set telefono (nombre, telefono, correo) values (:1, :2, :3)"""
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta_update, (cliente.nombre, cliente.telefono, cliente.correo)) # Se entrega los datos parametrizados
+            conn.commit()
+
+            print("[INFO] Telefono del cliente actualizado correctamente")
+    except oracledb.IntegrityError as e:
+        if conn:
+            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+
+        error = e.args[0]
+
+        if error.code == 1:
+            print("[WARNING] Combinacion nombre-telefono-correo ya existe") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
+        else:
+            print(f"[ERROR] Error de integridad | {e}")
+    except Exception as e:
+        if conn:
+            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
+
+        print(f"[ERROR] Cliente no registrado | {e}")
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
+
+
 class Cliente():
     def __init__(self, nombre: str, telefono: str, correo: str):
         self.nombre = nombre
