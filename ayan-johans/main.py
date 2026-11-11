@@ -15,10 +15,3 @@ from model.equipo import Equipo
 # equipo_1 = Equipo('Notebook', 'Lenovo', 'IdeaPad 3', '123456789')
 # print(equipo_1.mostrar_datos())
 
-# 1. Prueba de creación e inserción en Oracle
-equipo_1 = Equipo("Notebook", "Lenovo", "IdeaPad Slim 3", "SN-2026-001")
-print(equipo_1.mostrar_datos())
-
-# 2. Prueba de restricción UNIQUE (debería lanzar el [WARNING] de serie duplicada)
-# equipo_repetido = Equipo("Notebook", "Lenovo", "IdeaPad Slim 3", "SN-2026-001")
-# print(equipo_repetido.mostrar_datos())
