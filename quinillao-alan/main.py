@@ -6,19 +6,19 @@ Reglas PEP8:
     (el cual escribio como snake_case asyfduiasfduiafsdu, 
     camelCase es este)
 """
-# from model.cliente import Cliente
-# # from model.equipo import Equipo
-# # from model.orden_servicio import OrdenServicio
+from model.cliente import Cliente
+# from model.equipo import Equipo
+# from model.orden_servicio import OrdenServicio
 
-# print("Ingrese datos de la persona")
-# nombre = str(input("- Nombre: "))
-# telefono = str(input("- Telefono: "))
-# correo = str(input("- Correo: "))
+print("Ingrese datos de la persona")
+nombre = str(input("- Nombre: "))
+telefono = str(input("- Telefono: "))
+correo = str(input("- Correo: "))
 
 
-# persona1 = Cliente ('Pepe', '676767676767', 'pepe@hola.xd')
-# # datos = persona1.mostrar_datos()
-# # print(datos)
+persona1 = Cliente ('Pepe', '676767676767', 'pepe@hola.xd')
+# datos = persona1.mostrar_datos()
+# print(datos)
 
 # from model.cliente import Cliente
 from model.equipo import Equipo
