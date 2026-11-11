@@ -15,12 +15,13 @@ def validar_tabla_cliente():
     cursor = None
 
     try:
+        print("Intentando validar tabla...")
         conn = conectar_db()
 
         if conn:
             cursor = conn.cursor()
             cursor.execute(consulta_sql)
-            print("[INFO] Tabla clientes creada correctamente")
+            print("[INFO] Tabla clientes validada correctamente")
     except Exception as e:
         print(f"[ERROR] Creación de tabla clientes | {e}")
     finally:
@@ -30,7 +31,7 @@ def validar_tabla_cliente():
         if conn:
             conn.close()
 
-def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
+def insertar_datos_cliente(cliente: Cliente):
     consulta_insert = "insert into clientes (nombre, telefono, correo) values (:1, :2, :3)"
     conn = None
     cursor = None
@@ -40,7 +41,7 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
 
         if conn:
             cursor = conn.cursor()
-            cursor.execute(consulta_insert, (nombre, telefono, correo)) # Se entrega los datos parametrizados
+            cursor.execute(consulta_insert, (cliente.nombre, cliente.telefono, cliente.correo)) # Se entrega los datos parametrizados
             conn.commit()
 
             print("[INFO] Cliente insertado correctamente")
@@ -51,7 +52,7 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
         error = e.args[0]
 
         if error.code == 1:
-            print("[WARNING] El cliente ya registrado") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
+            print("[WARNING] Este cliente ya fue registrado") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
         else:
             print(f"[ERROR] Error de integridad | {e}")
     except Exception as e:
@@ -68,8 +69,7 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
 
 def bd_actualizar_telefono(cliente: Cliente, nuevo_telefono: str):
     consulta_update = """
-        update clientes
-            set telefono = :1
+        update clientes set telefono = :1
         where nombre= :2 and correo= :3 and telefono = :4
     """
     conn = None
@@ -114,7 +114,6 @@ class ClienteRepositorio():
         if isinstance(nuevo_telefono, str):
             bd_actualizar_telefono(self, nuevo_telefono)
             self.telefono = nuevo_telefono
-
         else:
             print("Telefono no corresponde a tipo String")
 
@@ -125,7 +124,7 @@ class Cliente(ClienteRepositorio):
         self.correo = correo
 
         validar_tabla_cliente() # Creamos la tabla / validamos que exista
-        insertar_datos_cliente(self.nombre, self.telefono, self.correo)
+        insertar_datos_cliente(self)
 
     def mostrar_datos(self):
         return f"Persona\n Nombre: {self.nombre} | Telefono: {self.telefono} | Correo: {self.correo}"

@@ -18,6 +18,7 @@ def conectar_db():
             dsn = DB_DSN,
             password = DB_PASS
         )
+        return conn
     except Exception as e:
         print(f"[ERROR] No se pudo conectar a BD | {e}")
         return None
