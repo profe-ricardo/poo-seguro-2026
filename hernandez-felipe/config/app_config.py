@@ -27,3 +27,4 @@ def conectar_db():
         print(f"[ERROR] No se pudo conectar a BD:")
         traceback.print_exc()
         return None
+    
