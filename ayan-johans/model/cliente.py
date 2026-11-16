@@ -2,23 +2,14 @@ from config.app_config import conectar_db, oracledb
 
 class Cliente:
     # Atributos
-    def __init__(self, nombre: str, correo: str, telefono: str):
+    def __init__(self, nombre: str, correo: str, telefono: str, clave: str):
         self.nombre = nombre
         self.correo = correo
         self.telefono = telefono
+        self.clave = clave
 
-        validar_tabla_cliente()
-        insertar_datos_cliente(self.nombre, self.telefono, self.correo)
-
-    # consulta_sql = """
-    #     create table if not exists clientes(
-    #         id int generated always as identify (start with 1 increment by 1) primary key, 
-    #         nombre varchar2(100),
-    #         telefono varchar2(30),
-    #         correo varchar2(100),
-    #         constraint uq_cliente unique (nombre, telefono, correo)
-    #     )
-    # """
+        # validar_tabla_cliente()
+        # insertar_datos_cliente(self.nombre, self.telefono, self.correo)
     # try:
     #     conn = conectar_db()
     #     if conn:
@@ -50,6 +41,7 @@ def validar_tabla_cliente():
             nombre varchar2(100),
             telefono varchar2(30),
             correo varchar2(100),
+            clave varchar2(150) not null,
             constraint uq_cliente unique (nombre, telefono, correo)
         );
     """
@@ -73,7 +65,7 @@ def validar_tabla_cliente():
             conn.close()
 
 def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
-    consulta_insert = "insert into clientes (nombre, telefono, correo) values (:1, :2, :3)"
+    consulta_insert = "insert into clientes (nombre, telefono, correo, clave) values (:1, :2, :3, :4)"
     conn = None
     cursor = None
 
