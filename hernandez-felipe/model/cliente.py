@@ -59,76 +59,27 @@ def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
             conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
 
         print(f"[ERROR] Cliente no registrado | {e}")
-    finally: 
+    finally:
         if cursor:
             cursor.close()
 
         if conn:
             conn.close()
 
-def bd_actualizar_telefono(cliente:cliente, nuevo_telefono: str):
-    consulta_update = """
-        consulta cliente
-            set telefono = :1
-        where nombre = :2 and correo = :3 and telefono = :4
-"""
-    conn = None
-    cursor = None
-
-    try:
-        conn = conectar_db()
-
-        if conn:
-            cursor = conn.cursor()
-            cursor.execute(consulta_update, (nuevo_telefono, cliente.nombre, cliente.correo)) # Se entrega los datos parametrizados
-            conn.commit()
-
-            print("[INFO] Telefono actualizado correctamente")
-    except oracledb.IntegrityError as e:
-        if conn:
-            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
-
-        error = e.args[0]
-
-        if error.code == 1:
-            print("[WARNING] El telefono no puede ser actualizado") # El error ORA-00001 indica prohibición de datos duplicados (constraint uq_cliente)
-        else:
-            print(f"[ERROR] Error de integridad | {e}")
-    except Exception as e:
-        if conn:
-            conn.rollback() # Si algo falla, nos aseguramos de que nada cambie en la bd
-
-        print(f"[ERROR] Telefono no actualizado | {e}")
-    finally: 
-        if cursor:
-            cursor.close()
-
-        if conn:
-            conn.close()
-class cliente():
+class Cliente():
     def __init__(self, nombre: str, telefono: str, correo: str):
         self.nombre = nombre
         self.telefono = telefono
         self.correo = correo
 
-        validar_tabla_cliente() # Validamos que la tabla exista antes de insertar datos
+        validar_tabla_cliente() # Creamos la tabla / validamos que exista
         insertar_datos_cliente(self.nombre, self.telefono, self.correo)
 
     def mostrar_datos(self):
         return f"Persona\n Nombre: {self.nombre} | Telefono: {self.telefono} | Correo: {self.correo}"
 
-
-
-class clienteRepositorio():
-    def __init__(self):
-        pass
-
-    def actualizar_telefono(self,nuevo_telefono: str):
+    def actualizar_telefono(self, nuevo_telefono: str):
         if isinstance(nuevo_telefono, str):
-            bd_actualizar_telefono(cliente, nuevo_telefono)
-            
-            return cliente
-        
+            self.telefono = nuevo_telefono
         else:
-            print("[ERROR] , el telefono debe correspondder a tipo str")
-
+            print("Telefono no corresponde a tipo str")
