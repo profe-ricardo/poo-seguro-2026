@@ -1,4 +1,4 @@
-from model.cliente import Client #busca el archivo.py clase Client
+from view.cliente import Client #busca el archivo.py clase Client
 from model.equipo import Equipo
 from model.OrdenServicio import OrdenServicio
 

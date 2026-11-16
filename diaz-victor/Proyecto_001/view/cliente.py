@@ -1,5 +1,4 @@
-from config.app_config import conectar_db, oracledb
-
+from Proyecto_001.config import conectar_db
 class Client():
     def __init__(self, nombre:str, telefono:str,  correo:str):
         self.nombre = nombre 
