@@ -8,3 +8,6 @@ def registrar_cliente():
     clave = str(input("Ingrese su clave: "))
 
     usuario = Cliente(nombre, telefono, correo, clave)
+
+    print("\n[INFO] Registrando cliente...")
+    
