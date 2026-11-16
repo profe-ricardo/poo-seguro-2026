@@ -4,9 +4,10 @@ def validar_tabla_cliente():
     consulta_sql = """
         create table if not exists clientes (
             id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
-            nombre varchar2(100),
+            nombre varchar2(100) NOT NULL,
             telefono varchar2(30),
             correo varchar2(100),
+            clave varchar2(150) NOT NULL,
             constraint uq_cliente unique (nombre, telefono, correo)
         );
     """
@@ -116,13 +117,14 @@ class ClienteRepositorio:
             print("Telefono no corresponde a tipo str")
 
 class Cliente:
-    def __init__(self, nombre:str,telefono:str, correo:str):
+    def __init__(self, nombre:str,telefono:str, correo:str, clave:str):
         self.nombre=nombre
         self.telefono=telefono
         self.correo=correo
+        self.clave=clave
 
-        validar_tabla_cliente()
-        insertar_datos_cliente(self.nombre, self.telefono, self.correo)
+        # validar_tabla_cliente()
+        # insertar_datos_cliente(self.nombre, self.telefono, self.correo)
 
     def mostrar_datos(self):
         return f'Cliente: {self.nombre} | Correo: {self.correo} | Teléfono: {self.telefono}'
