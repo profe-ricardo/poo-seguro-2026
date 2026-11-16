@@ -8,9 +8,12 @@ from view.cliente import registrar_usuario
 
 def main():
     validador = True
+    usuario = None
 
     while validador:
-        print(" Seleccione una opción:")
+        print("=====" * 6)
+        print("\n Seleccione una opción:")
+
         opcion = str(input(
             "\n 1 : Iniciar sesión" +
             "\n 2 : Terminar programa" +
@@ -18,22 +21,27 @@ def main():
             "\n\n Opción : "
         ))
 
-        print("\n")
-        print("=====" * 6)
-
         if opcion not in ("1", "2", "3"):
             print(" Opción no válida, intente nuevamente.")
         else:
             if opcion == "1":
-                print(" Inicio de sesión no habilitado.")
+                if usuario:
+                    usuario_nombre = str(input("  Ingrese su usuario    : "))
+                    usuario_clave  = str(input("  Ingrese su contraseña : "))
+
+                    if (usuario.nombre == usuario_nombre and usuario.clave == usuario_clave):
+                        print("\n Inicio de sesión correcto.")
+                    else:
+                        print("\n Credenciales incorrectas, intente nuevamente.")
+                else:
+                    print("\n Usuario no registrado, intente nuevamente.")
 
             if opcion == "2":
                 print(" Que le vaya bien.")
                 validador = False
 
             if opcion == "3":
-                print(" Comienza registro de usuario")
-                registrar_usuario()
+                usuario = registrar_usuario()
 
 if __name__ == "__main__":
     main()

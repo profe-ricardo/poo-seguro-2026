@@ -124,8 +124,8 @@ class Cliente(ClienteRepositorio):
         self.correo = correo
         self.clave = clave
 
-        validar_tabla_cliente() # Creamos la tabla / validamos que exista
-        insertar_datos_cliente(self)
+        # validar_tabla_cliente() # Creamos la tabla / validamos que exista
+        # insertar_datos_cliente(self)
 
     def mostrar_datos(self):
         return f"Persona\n Nombre: {self.nombre} | Telefono: {self.telefono} | Correo: {self.correo}"
