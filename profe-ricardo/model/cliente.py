@@ -118,10 +118,11 @@ class ClienteRepositorio():
             print("Telefono no corresponde a tipo str")
 
 class Cliente(ClienteRepositorio):
-    def __init__(self, nombre: str, telefono: str, correo: str):
+    def __init__(self, nombre: str, telefono: str, correo: str, clave: str):
         self.nombre = nombre
         self.telefono = telefono
         self.correo = correo
+        self.clave = clave
 
         validar_tabla_cliente() # Creamos la tabla / validamos que exista
         insertar_datos_cliente(self)
