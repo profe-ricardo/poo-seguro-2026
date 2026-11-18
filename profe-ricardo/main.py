@@ -4,17 +4,36 @@
     - funciones -> todo en minúscula y en snake_case
 """
 
-from model.cliente import Cliente
-# from model.equipo import Equipo
-# from model.orden_servicio import OrdenServicio
+from view.cliente import registrar_usuario
 
-print("---")
-persona_1 = Cliente('Pedro', '912345678', 'pedro@hola.com')
-# print(persona_1.mostrar_datos())
-# persona_1.actualizar_telefono(987654321)
+def main():
+    validador = True
 
-# equipo_1 = Equipo('Telefono', 'Xiaomi', 'Redmi 14c', '123456')
-# print(equipo_1.mostrar_datos())
+    while validador:
+        print(" Seleccione una opción:")
+        opcion = str(input(
+            "\n 1 : Iniciar sesión" +
+            "\n 2 : Terminar programa" +
+            "\n 3 : Registrar usuario" +
+            "\n\n Opción : "
+        ))
 
-# orden_servicio_1 = OrdenServicio(1, "Equipo no prende", "Recepcionado", "", persona_1, equipo_1)
-# print(orden_servicio_1.mostrar_resumen())
+        print("\n")
+        print("=====" * 6)
+
+        if opcion not in ("1", "2", "3"):
+            print(" Opción no válida, intente nuevamente.")
+        else:
+            if opcion == "1":
+                print(" Inicio de sesión no habilitado.")
+
+            if opcion == "2":
+                print(" Que le vaya bien.")
+                validador = False
+
+            if opcion == "3":
+                print(" Comienza registro de usuario")
+                registrar_usuario()
+
+if __name__ == "__main__":
+    main()
