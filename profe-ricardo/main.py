@@ -4,24 +4,24 @@
     - funciones -> todo en minúscula y en snake_case
 """
 
-from model.cliente import Cliente
-# from model.equipo import Equipo
-# from model.orden_servicio import OrdenServicio
+from view.menus import menu_principal
 
-print("---")
-print("Ingrese datos de la persona")
-nombre = str(input(" - Nombre: "))
-telefono = str(input(" - Teléfono: "))
-correo = str(input(" - Correo: "))
+def main():
+    validador = True
+    usuario = None
+    sesion = None
 
-persona_1 = Cliente(nombre, telefono, correo)
-# persona_1.actualizar_telefono('987')
+    while validador and not sesion:
+        validador, usuario, sesion = menu_principal(validador, usuario, sesion)
 
-# print(persona_1.mostrar_datos())
-# persona_1.actualizar_telefono(987654321)
+    while sesion:
+        print(f"\n Sesión iniciada con usuario {usuario.nombre}")
 
-# equipo_1 = Equipo('Telefono', 'Xiaomi', 'Redmi 14c', '123456')
-# print(equipo_1.mostrar_datos())
+        opcion = str(input("\n ¿Desea cerrar sesión? (Si | No) "))
 
-# orden_servicio_1 = OrdenServicio(1, "Equipo no prende", "Recepcionado", "", persona_1, equipo_1)
-# print(orden_servicio_1.mostrar_resumen())
+        if opcion == "Si":
+            print("\n Que tenga un buen día.")
+            sesion = None
+
+if __name__ == "__main__":
+    main()
