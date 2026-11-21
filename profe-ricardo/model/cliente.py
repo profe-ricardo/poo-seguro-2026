@@ -5,9 +5,10 @@ def validar_tabla_cliente():
     consulta_sql = """
         create table if not exists clientes (
             id NUMBER GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY,
-            nombre varchar2(100),
+            nombre varchar2(100) not null,
             telefono varchar2(30),
-            correo varchar2(100),
+            correo varchar2(100) not null,
+            clave varchar2(150) not null
             constraint uq_cliente unique (nombre, telefono, correo)
         );
     """
@@ -31,7 +32,7 @@ def validar_tabla_cliente():
             conn.close()
 
 def insertar_datos_cliente(cliente: Cliente):
-    consulta_insert = "insert into clientes (nombre, telefono, correo) values (:1, :2, :3)"
+    consulta_insert = "insert into clientes (nombre, telefono, correo, clave) values (:1, :2, :3, :4)"
     conn = None
     cursor = None
 
@@ -40,7 +41,7 @@ def insertar_datos_cliente(cliente: Cliente):
 
         if conn:
             cursor = conn.cursor()
-            cursor.execute(consulta_insert, (cliente.nombre, cliente.telefono, cliente.correo)) # Se entrega los datos parametrizados
+            cursor.execute(consulta_insert, (cliente.nombre, cliente.telefono, cliente.correo, cliente.clave)) # Se entrega los datos parametrizados
             conn.commit()
 
             print("[INFO] Cliente insertado correctamente")
@@ -124,8 +125,8 @@ class Cliente(ClienteRepositorio):
         self.correo = correo
         self.clave = clave
 
-        validar_tabla_cliente() # Creamos la tabla / validamos que exista
-        insertar_datos_cliente(self)
+        # validar_tabla_cliente() # Creamos la tabla / validamos que exista
+        # insertar_datos_cliente(self)
 
     def mostrar_datos(self):
         return f"Persona\n Nombre: {self.nombre} | Telefono: {self.telefono} | Correo: {self.correo}"

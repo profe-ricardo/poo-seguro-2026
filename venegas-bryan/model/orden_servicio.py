@@ -1,5 +1,5 @@
-from .cliente01 import Cliente
-from .equipo01 import Equipo
+from .cliente import Cliente
+from .equipo import Equipo
 
 class OrdenServicio():
     def __init__(self, numero: int, descripcion: str, estado: str, diagnostico: str, cliente: Cliente, equipo: Equipo):

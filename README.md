@@ -10,3 +10,4 @@
    - `git clone https://github.com/profe-ricardo/poo-seguro-2026.git`
 5. Asegúrate de estar en tu rama:
    - `git checkout "nombre_de_tu_rama"`
+6. Generar git ignore desde este [enlace](https://gitignore.io)

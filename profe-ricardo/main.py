@@ -4,36 +4,24 @@
     - funciones -> todo en minúscula y en snake_case
 """
 
-from view.cliente import registrar_usuario
+from view.menus import menu_principal
 
 def main():
     validador = True
+    usuario = None
+    sesion = None
 
-    while validador:
-        print(" Seleccione una opción:")
-        opcion = str(input(
-            "\n 1 : Iniciar sesión" +
-            "\n 2 : Terminar programa" +
-            "\n 3 : Registrar usuario" +
-            "\n\n Opción : "
-        ))
+    while validador and not sesion:
+        validador, usuario, sesion = menu_principal(validador, usuario, sesion)
 
-        print("\n")
-        print("=====" * 6)
+    while sesion:
+        print(f"\n Sesión iniciada con usuario {usuario.nombre}")
 
-        if opcion not in ("1", "2", "3"):
-            print(" Opción no válida, intente nuevamente.")
-        else:
-            if opcion == "1":
-                print(" Inicio de sesión no habilitado.")
+        opcion = str(input("\n ¿Desea cerrar sesión? (Si | No) "))
 
-            if opcion == "2":
-                print(" Que le vaya bien.")
-                validador = False
-
-            if opcion == "3":
-                print(" Comienza registro de usuario")
-                registrar_usuario()
+        if opcion == "Si":
+            print("\n Que tenga un buen día.")
+            sesion = None
 
 if __name__ == "__main__":
     main()
