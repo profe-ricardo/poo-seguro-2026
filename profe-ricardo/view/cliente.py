@@ -1,4 +1,4 @@
-from model.cliente import Cliente
+from model.cliente import Cliente, iniciar_sesion
 
 def registrar_usuario():
     """ Registra usuario """
@@ -13,14 +13,9 @@ def registrar_usuario():
     print("\n Usuario creado")
     return usuario
 
-def inicio_sesion(usuario: Cliente):
+def inicio_sesion():
     """ Valida inicio de sesión con usuario en memoria """
     usuario_correo = str(input("  Ingrese su correo     : "))
     usuario_clave  = str(input("  Ingrese su contraseña : "))
 
-    if (usuario.correo == usuario_correo and usuario.clave == usuario_clave):
-        print(f"\n Inicio de sesión correcto, bienvenid@ {usuario.nombre}.")
-        return True
-    else:
-        print("\n Credenciales incorrectas, intente nuevamente.")
-        return False
+    return iniciar_sesion(usuario_correo, usuario_clave)
