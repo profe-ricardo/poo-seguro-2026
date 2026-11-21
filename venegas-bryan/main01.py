@@ -33,7 +33,7 @@ def main():
                     usuario_nombre = str(input(" Ingrese su usuario    : " ))
                     usuario_clave  = str(input(" Ingrese su contraseña : " ))
                     
-                    if ( usuario.nombre == usuario_nombre and usuario.clave == usuario_clave):
+                    if (usuario.nombre == usuario_nombre and usuario.clave == usuario_clave):
                         print("\n Inicio de sesion correcto ")
                     else:
                         print("\n Credenciales Incorrectas, intentelo nuevamente ")

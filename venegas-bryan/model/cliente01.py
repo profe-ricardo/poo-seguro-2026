@@ -30,11 +30,11 @@ def validar_tabla_cliente():
         if conn:
             conn.close()
 
-def insertar_datos_cliente(nombre: str, telefono: str, correo: str):
+def insertar_datos_cliente(cliente: Cliente):
     consulta_insert = "insert into clientes (nombre, telefono, correo) values (:1, :2, :3)"
     conn = None
     cursor = None
-
+    
     try:
         conn = conectar_db()
 
