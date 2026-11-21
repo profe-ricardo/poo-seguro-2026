@@ -32,3 +32,4 @@ def menu_principal(validador, usuario, sesion):
 
 def menu_usuario(sesion):
     """"""
+    # TODO: Aquí debería estar el menú de usuario, considerando lo que puede o no puede hacer

@@ -11,3 +11,8 @@
 5. Asegúrate de estar en tu rama:
    - `git checkout "nombre_de_tu_rama"`
 6. Generar git ignore desde este [enlace](https://gitignore.io)
+7. Genera el env y comienza a usarlo:
+   - `python -m venv env` -> `env` es el nombre de tu enviroment
+   - ejecuta `env\Scripts\Activate.ps1` para habilitar tu enviroment
+8. Instala todo lo necesario con el siguiente comando:
+   - `pip install -r requirements.txt`
