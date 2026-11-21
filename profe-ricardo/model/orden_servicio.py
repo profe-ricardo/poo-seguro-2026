@@ -1,3 +1,7 @@
+# 1.- Guardar orden de servicio en bd
+# 2.- Registrar cambio estado en bd
+# 3.- Registrar diagnostico en bd
+
 from .cliente import Cliente
 from .equipo import Equipo
 
