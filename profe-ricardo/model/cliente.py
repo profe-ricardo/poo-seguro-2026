@@ -74,7 +74,14 @@ def insertar_datos_cliente(cliente: Cliente):
         if conn:
             conn.close()
 
-def iniciar_sesion(correo: str, clave: str):
+def iniciar_sesion(correo: str, clave: str) -> Cliente | bool:
+    """ 
+        Recibe el correo y la contraseña y lo valida con la base de datos.
+        
+        En caso de ser correcto, retorna el usuario.
+
+        En caso incorrecto devuelve False.
+    """
     consulta = "select nombre, telefono, clave from clientes where correo = :1"
     conn = None
     cursor = None
@@ -103,6 +110,9 @@ def iniciar_sesion(correo: str, clave: str):
             else:
                 print(f"[ERROR] Credenciales incorrectas | {e}")
                 return False
+        else:
+            print("[ERROR] No se pudo conectar la bd")
+            return False
             
     except Exception as e:
         print(f"[ERROR] Obtención de clave | {e}")
@@ -113,7 +123,6 @@ def iniciar_sesion(correo: str, clave: str):
             
         if conn:
             conn.close()
-
 
 class ClienteRepositorio():
     def __init__(self):
